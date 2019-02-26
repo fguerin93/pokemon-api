@@ -56,6 +56,16 @@
     right: 10%;
 }
 
+.game-interface .battle-container .user-container .stats-container:nth-of-type(2)
+{
+    display:none;
+}
+
+.game-interface .battle-container .user-container .stats-container:nth-of-type(3)
+{
+    display:none;
+}
+
 .game-interface .battle-container .stats-container .pokemon-name
 {
     position: absolute;
@@ -110,6 +120,17 @@
 {
     left: 20%;
 }
+
+.game-interface .battle-container .user-container .sprite-container:nth-of-type(5)
+{
+    display: none;
+}
+
+.game-interface .battle-container .user-container .sprite-container:nth-of-type(6)
+{
+    display: none;
+}
+
 
 /**
 *  USER PART
@@ -218,6 +239,16 @@
     background: white;
 }
 
+.game-interface .attack-container.attacks-artikodin
+{
+    display: none;
+}
+
+.game-interface .attack-container.attacks-elekthor
+{
+    display: none;
+}
+
 .game-interface .attack-container .attack
 {
     position: absolute;
@@ -238,17 +269,17 @@
     text-transform: uppercase;
 }
 
-.game-interface .attack-container .attack-two
+.game-interface .attack-container .attack:nth-child(2)
 {
     right:0;
 }
 
-.game-interface .attack-container .attack-third
+.game-interface .attack-container .attack:nth-child(3)
 {
     bottom:0;
 }
 
-.game-interface .attack-container .attack-fourth
+.game-interface .attack-container .attack:nth-child(4)
 {
     right: 0;
     bottom: 0;
@@ -266,6 +297,32 @@
     bottom: 0;
     border: 1px solid black;
     display: none;
+    background: white;
+}
+
+.game-interface .change-container .first-pokemon
+{
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    left: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+}
+
+.game-interface .change-container .first-pokemon-2
+{
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    right: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background: white;
 }
 

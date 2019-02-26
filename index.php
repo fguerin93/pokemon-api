@@ -8,7 +8,7 @@
     $lugiaPhotoUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/249.png';
     $artikodinPhotoUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png';
     $elekthorPhotoUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png';
-    $sulfuraPhotoUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/146.png';
+    $sulfuraPhotoUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png';
     $lugiaUrl = $url . 'pokemon/249/';
     $artikodinUrl = $url . 'pokemon/144/';
     $elekthorUrl = $url . 'pokemon/145/';
@@ -64,6 +64,12 @@
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $sulfuraUrlExec = curl_exec($curl);
         curl_close($curl);
+
+        //decode pokemon to json
+        $lugiaJson = json_decode($lugiaUrlExec);
+        $artikodinJson = json_decode($artikodinUrlExec);
+        $elekthorJson = json_decode($elekthorUrlExec);
+        $sulfuraJson = json_decode($sulfuraUrlExec);
 
         //move request to api
         //lugia move request
@@ -147,12 +153,7 @@
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $emberUrlExec = curl_exec($curl);
         curl_close($curl);
-
-    //decode pokemon to json
-    $lugiaJson = json_decode($lugiaUrlExec);
-    $artikodinJson = json_decode($artikodinUrlExec);
-    $elekthorJson = json_decode($elekthorUrlExec);
-    $sulfuraJson = json_decode($sulfuraUrlExec);
+        
 
     //decode moves to json
     //lugia's moves
@@ -176,13 +177,20 @@
     $wingAttackJson = json_decode($wingAttackUrlExec);
     $emberJson = json_decode($emberUrlExec);
 
+    $userPokemon = (object)[]; 
+    $userPokemon->pokemons = [json_decode($sulfuraUrlExec), json_decode($artikodinUrlExec), json_decode($elekthorUrlExec)];
+    $userPokemon->spritesUrl = ['https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/146.png','https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/144.png','https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/145.png'];
 
-
+    $lugiaJson->attacks = [json_decode($hiddenPowerUrlExec), json_decode($thunderUrlExec), json_decode($psychicUrlExec), json_decode($aeroblastUrlExec)];
+    $artikodinJson->attacks = [json_decode($iceBeamUrlExec), json_decode($hurricaneUrlExec), json_decode($gustUrlExec), json_decode($powderSnowUrlExec)];
+    $elekthorJson->attacks = [json_decode($thunderShockUrlExec), json_decode($thunderUrlExec), json_decode($hiddenPowerUrlExec), json_decode($drillPeckUrlExec)];
+    $sulfuraJson->attacks = [json_decode($flamethrowerUrlExec), json_decode($hiddenPowerUrlExec), json_decode($wingAttackUrlExec), json_decode($emberUrlExec)];
 
     //create static map url
-    echo '<pre>';
-    print_r($lugiaJson->stats[5]->base_stat);
-    echo '</pre>';
+    // echo '<pre>';
+    // print_r($userPokemon);
+    // echo '</pre>';
+
 ?>
 
 
@@ -192,8 +200,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href ="css/style.css">
-    <link rel="stylesheet" href ="css/reset.css">
+    <link rel="stylesheet" href ="css/style.css?b=<?= rand(0,100) ?>">
+    <link rel="stylesheet" href ="css/reset.css?b=<?= rand(0,100) ?>">
     <title>API</title> 
 </head>
 <body>
@@ -245,14 +253,18 @@
                 <div class="sprite-container"><img src="<?= $lugiaPhotoUrl?>"></div>
             </div>
             <div class="user-container">
-                <div class="stats-container">
-                    <p class="pokemon-name"><?= $sulfuraJson->name?></p>
-                    <p class="pokemon-level"> LVL. 50</p>
-                    <p class="pokemon-pv"> <?= $sulfuraJson->stats[5]->stat->name?></p>
-                    <p class="pokemon-pv-ratio"> <?= $sulfuraJson->stats[5]->base_stat?>/<?= $sulfuraJson->stats[5]->base_stat?></p>
-                    <div class="pokemon-pv-seekbar"></div>
-                </div>
-                <div class="sprite-container"><img src="<?= $sulfuraPhotoUrl?>"></div>
+                <?php foreach($userPokemon->pokemons as $pokemon) { ?>
+                    <div class="stats-container">
+                        <p class="pokemon-name"><?= $pokemon->name?></p>
+                        <p class="pokemon-level"> LVL. 50</p>
+                        <p class="pokemon-pv"> <?= $pokemon->stats[5]->stat->name?> </p>
+                        <p class="pokemon-pv-ratio"> <?= $pokemon->stats[5]->base_stat?>/<?= $pokemon->stats[5]->base_stat?></p>
+                        <div class="pokemon-pv-seekbar"></div>
+                    </div>
+                <?php } ?>
+                <?php foreach($userPokemon->spritesUrl as $spriteUrl) { ?>
+                    <div class="sprite-container"><img src="<?= $spriteUrl?>"></div>
+                <?php } ?>               
             </div>
         </div>
         <!-- 4 actions possible for user container -->
@@ -268,40 +280,78 @@
             </div>
         </div>
         <!-- 4 attack container -->
-        <div class="attack-container">
+        <div class="attack-container attacks-sulfura">
+        <?php foreach($sulfuraJson->attacks as $attack) { ?>
+            <div class="attack">
+                <p class="name"><?= $attack->name?></p>
+                <p><span class="pp"><?= $attack->pp?></span>PP type/<?= $attack->type->name?></p>
+            </div>
+        <?php } ?>
+        </div>
+
+        <div class="attack-container attacks-artikodin">
+        <?php foreach($artikodinJson->attacks as $attack) { ?>
+            <div class="attack">
+                <p class="name"><?= $attack->name?></p>
+                <p><span class="pp"><?= $attack->pp?></span>PP type/<?= $attack->type->name?></p>
+            </div>
+        <?php } ?>
+        </div>
+
+        <div class="attack-container attacks-elekthor">
+        <?php foreach($elekthorJson->attacks as $attack) { ?>
+            <div class="attack">
+                <p class="name"><?= $attack->name?></p>
+                <p><span class="pp"><?= $attack->pp?></span>PP type/<?= $attack->type->name?></p>
+            </div>
+        <?php } ?>
+        </div>
+
+<!-- 
+       
             <div class="attack-one attack">
-                <p><?= $flamethrowerJson->name?></p>
-                <p><?= $flamethrowerJson->pp?>PP type/<?= $flamethrowerJson->type->name?></p>
+                <p class="name"><?= $flamethrowerJson->name?></p>
+                <p><span class="pp"><?= $flamethrowerJson->pp?></span>PP type/<?= $flamethrowerJson->type->name?></p>
             </div>
             <div class="attack-two attack">
-                <p><?= $hiddenPowerJson->name?></p>
-                <p><?= $hiddenPowerJson->pp?>PP type/<?= $hiddenPowerJson->type->name?></p>
+                <p class="name"><?= $hiddenPowerJson->name?></p>
+                <p><span class="pp"><?= $hiddenPowerJson->pp?></span>PP type/<?= $hiddenPowerJson->type->name?></p>
             </div>
             <div class="attack-third attack">
-                <p><?= $wingAttackJson->name?></p>
-                <p><?= $wingAttackJson->pp?>PP type/<?= $wingAttackJson->type->name?></p>
+                <p class="name"><?= $wingAttackJson->name?></p>
+                <p><span class="pp"><?= $wingAttackJson->pp?></span>PP type/<?= $wingAttackJson->type->name?></p>
             </div>
             <div class="attack-fourth attack">
-                <p><?= $emberJson->name?></p>
-                <p><?= $emberJson->pp?>PP type/<?= $emberJson->type->name?></p>
-            </div>            
-        </div>
+                <p class="name"><?= $emberJson->name?></p>
+                <p><span class="pp"><?= $emberJson->pp?></span>PP type/<?= $emberJson->type->name?></p>
+            </div>             -->
+        
         <!-- change and choose pokemon container -->
         <div class="change-container">
+            <div class="first-pokemon pokemon">
+                <img src="<?= $sulfuraPhotoUrl?>">
+                <p class="name"><?= $sulfuraJson->name?></p>
+                <p><?= $sulfuraJson->stats[5]->stat->name?><?= $sulfuraJson->stats[5]->base_stat?>/<?= $sulfuraJson->stats[5]->base_stat?></p>
+            </div>
+            <div class="first-pokemon-2 pokemon">
+                <img src="<?= $sulfuraPhotoUrl?>">
+                <p class="name"><?= $sulfuraJson->name?></p>
+                <p><?= $sulfuraJson->stats[5]->stat->name?><?= $sulfuraJson->stats[5]->base_stat?>/<?= $sulfuraJson->stats[5]->base_stat?></p>
+            </div>
             <div class="second-pokemon pokemon">
                 <img src="<?= $artikodinPhotoUrl?>">
-                <p><?= $artikodinJson->name?></p>
+                <p class="name"><?= $artikodinJson->name?></p>
                 <p><?= $artikodinJson->stats[5]->stat->name?><?= $artikodinJson->stats[5]->base_stat?>/<?= $artikodinJson->stats[5]->base_stat?></p>
             </div>
             <div class="third-pokemon pokemon">
                 <img src="<?= $elekthorPhotoUrl?>">
-                <p><?= $elekthorJson->name?></p>
+                <p class="name"><?= $elekthorJson->name?></p>
                 <p><?= $elekthorJson->stats[5]->stat->name?><?= $elekthorJson->stats[5]->base_stat?>/<?= $elekthorJson->stats[5]->base_stat?></p>
             </div>
         </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js?b=<?= rand(0,100) ?>"></script>
 
 </body>
 </html>
