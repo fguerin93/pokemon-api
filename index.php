@@ -208,12 +208,12 @@
     
     <!--formulaire-->
     <img src="<?= $lugiaPhotoUrl?>">
-    <p><?= $lugiaJson->stats[5]->base_stat?> <?= $lugiaJson->stats[5]->stat->name?></p>
+    <p class="hidden-values lugia-hp"><?= $lugiaJson->stats[5]->base_stat?></p>
     <p>Attack list</p>
-    <p><?= $hiddenPowerJson->name?> <?= $hiddenPowerJson->power?>damage <?= $hiddenPowerJson->pp?>PP <?= $hiddenPowerJson->accuracy?>%accuracy</p>
-    <p><?= $thunderJson->name?> <?= $thunderJson->power?>damage <?= $thunderJson->pp?>PP <?= $thunderJson->accuracy?>%accuracy</p>
-    <p><?= $psychicJson->name?> <?= $psychicJson->power?>damage <?= $psychicJson->pp?>PP <?= $psychicJson->accuracy?>%accuracy</p>
-    <p><?= $aeroblastJson->name?> <?= $aeroblastJson->power?>damage <?= $aeroblastJson->pp?>PP <?= $aeroblastJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $hiddenPowerJson->name?></p> <p class="hidden-values"><?= $hiddenPowerJson->power?></p> damage <?= $hiddenPowerJson->pp?>PP <?= $hiddenPowerJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $thunderJson->name?></p> <p class="hidden-values"><?= $thunderJson->power?></p>damage <?= $thunderJson->pp?>PP <?= $thunderJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $psychicJson->name?></p> <p class="hidden-values"><?= $psychicJson->power?></p>damage <?= $psychicJson->pp?>PP <?= $psychicJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $aeroblastJson->name?></p> <p class="hidden-values"><?= $aeroblastJson->power?></p>damage <?= $aeroblastJson->pp?>PP <?= $aeroblastJson->accuracy?>%accuracy</p>
 
     <img src="<?= $artikodinPhotoUrl?>">
     <p><?= $artikodinJson->stats[5]->base_stat?> <?= $artikodinJson->stats[5]->stat->name?></p>
@@ -285,6 +285,7 @@
             <div class="attack">
                 <p class="name"><?= $attack->name?></p>
                 <p><span class="pp"><?= $attack->pp?></span>PP type/<?= $attack->type->name?></p>
+                <p class="hidden-values attack-power"><?= $attack->power?></p>
             </div>
         <?php } ?>
         </div>
@@ -294,6 +295,7 @@
             <div class="attack">
                 <p class="name"><?= $attack->name?></p>
                 <p><span class="pp"><?= $attack->pp?></span>PP type/<?= $attack->type->name?></p>
+                <p class="hidden-values attack-power"><?= $attack->power?></p>
             </div>
         <?php } ?>
         </div>
@@ -303,6 +305,7 @@
             <div class="attack">
                 <p class="name"><?= $attack->name?></p>
                 <p><span class="pp"><?= $attack->pp?></span>PP type/<?= $attack->type->name?></p>
+                <p class="hidden-values attack-power"><?= $attack->power?></p>
             </div>
         <?php } ?>
         </div>

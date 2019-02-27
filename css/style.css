@@ -4,6 +4,13 @@
     src: url("/fonts/pokemon-classic.ttf") format("TrueType");
 }
 
+.hidden-values
+{
+    display: none;
+}
+
+
+
 .game-interface
 {
     position: absolute;
@@ -100,6 +107,7 @@
     height: 2px;
     right: 15px;
     bottom: 16px;
+    transform-origin: 100% 100%;
     background: green;
 }
 
