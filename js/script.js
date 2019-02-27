@@ -105,6 +105,13 @@ for (let i=0; i<$attack.length; i++)
     
                 lugiaHpAfter = lugiaHpAfter - Number($attackChoosedPower[i].innerText) //change lugia hp
                 $lugiaHpBar.style.transform=`scaleX(${lugiaHpAfter/lugiaHpBase})` //change lugia hp bar in interface
+
+                $spriteContainers.forEach($spriteContainer => {
+                    $spriteContainer.classList.add('spriteAnim')  
+                    setTimeout(() => {
+                        $spriteContainer.classList.remove('spriteAnim') 
+                    }, 1000);
+                })
             }
             userTurn = false
             setTimeout(iaTurn, 2000)

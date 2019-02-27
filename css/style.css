@@ -129,6 +129,14 @@
     left: 20%;
 }
 
+.game-interface .battle-container .user-container .sprite-container.spriteAnim
+{
+    animation-name: spriteMoveWhenAttack;
+    animation-duration: 0.2s;
+    animation-timing-function: ease;
+    animation-fill-mode: backwards;
+}
+
 .game-interface .battle-container .user-container .sprite-container:nth-of-type(5)
 {
     display: none;
@@ -139,6 +147,12 @@
     display: none;
 }
 
+
+@keyframes spriteMoveWhenAttack
+{
+    0% {transform: scale(2)}
+    100% {transform: scale(2) translateX(20px) translateY(-20px)}
+}
 
 /**
 *  USER PART
