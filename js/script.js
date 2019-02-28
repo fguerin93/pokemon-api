@@ -22,11 +22,19 @@ const $statsContainers = document.querySelectorAll('.game-interface .battle-cont
 //each attack to click on
 const $attack = document.querySelectorAll('.game-interface .attack-container .attack')
 
-//BAR DE HP LUGIA
+// LUGIA DOM ELEMENTS
+const $lugiaSprite = document.querySelector('.game-interface .battle-container .ia-container .sprite-container ')
 const $lugiaHpBar = document.querySelector('.game-interface .battle-container .ia-container .stats-container .pokemon-pv-seekbar')
 const $lugiaHpValue = document.querySelector('.lugia-hp')
 const lugiaHpBase = Number($lugiaHpValue.textContent) * 10
 let lugiaHpAfter = Number($lugiaHpValue.textContent) * 10
+
+//BARRE DE HP OF USER POKEMONS
+const $userPokemonHpBar = document.querySelectorAll('.game-interface .battle-container .user-container .stats-container .pokemon-pv-seekbar')
+const $userPokemonHpValues = document.querySelectorAll('.game-interface .battle-container .user-container .stats-container .pokemon-pv-ratio .pokemon-pv-value')
+const userPokemonHpBase = [Number($userPokemonHpValues[0].textContent), Number($userPokemonHpValues[1].textContent), Number($userPokemonHpValues[2].textContent)]
+const userPokemonHpAfter = [Number($userPokemonHpValues[0].textContent), Number($userPokemonHpValues[1].textContent), Number($userPokemonHpValues[2].textContent)]
+const $userPokemonPvToUpdate = document.querySelectorAll('.game-interface .change-container .pokemon .pv-to-update')
 
 //two pokemon to click on
 const $pokemonChange = document.querySelectorAll('.game-interface .change-container .pokemon')
@@ -59,7 +67,9 @@ $captureAction.addEventListener('click', () =>
 {
     if (userTurn)
     {
-        $descriptionContainer.textContent="Bruno simon lance une pokéball";
+        $descriptionContainer.textContent="Bruno simon lance une pokéball"
+        userTurn = false
+        setTimeout(iaTurn, 2000)
     }
 })
 
@@ -122,6 +132,11 @@ for (let i=0; i<$attack.length; i++)
 //FUNCTION WHEN POKEMON IS ATTACKED
 
 const $pokemonChoosed = document.querySelectorAll('.change-container .pokemon .name')
+const pokemonChoosedIsDead = {}
+pokemonChoosedIsDead.sulfura = false
+pokemonChoosedIsDead.artikodin = false
+pokemonChoosedIsDead.elekthor = false
+
 for (let i=0; i<$pokemonChange.length; i++)
 {
     if(userTurn)
@@ -238,45 +253,72 @@ for (let i=0; i<$pokemonChange.length; i++)
 const iaTurn = () =>
 {
     const $lugiaAttacks = document.querySelectorAll('.lugia-attack')
+    const $lugiaAttacksPowers = document.querySelectorAll('.lugia-attack-power')
     let lugiaAttacksArray = []
+    let lugiaAttacksPowersArray = []
     
     $lugiaAttacks.forEach($attack => {
         lugiaAttacksArray.push($attack.innerText)
     });
+
+    $lugiaAttacksPowers.forEach($power => {
+        lugiaAttacksPowersArray.push(Number($power.innerText))
+    });
     
     let lugiaAttackChoosed = ""
+    let lugiaAttackPowerChoosed = ""
     
     while (userTurn == false)
     {
         console.log('tour de lugia')
         let mathRandomValueForLugiaAttack = Math.random()
+
+        //lugia choose his attack script
+        if (mathRandomValueForLugiaAttack<=0.4) lugiaAttackChoosed = lugiaAttacksArray[1], lugiaAttackPowerChoosed = lugiaAttacksPowersArray[1]
+        else if ((mathRandomValueForLugiaAttack>0.3)&&(mathRandomValueForLugiaAttack<=0.8)) lugiaAttackChoosed = lugiaAttacksArray[3], lugiaAttackPowerChoosed = lugiaAttacksPowersArray[3]   
+        else if ((mathRandomValueForLugiaAttack>0.2)&&(mathRandomValueForLugiaAttack<=0.9)) lugiaAttackChoosed = lugiaAttacksArray[2], lugiaAttackPowerChoosed = lugiaAttacksPowersArray[2]  
+        else if ((mathRandomValueForLugiaAttack>0.1)&&(mathRandomValueForLugiaAttack<=1)) lugiaAttackChoosed = lugiaAttacksArray[0], lugiaAttackPowerChoosed = lugiaAttacksPowersArray[0] 
+
+
         if (pokemonChoosed.sulfura)
         {
-            if (mathRandomValueForLugiaAttack<=0.7) lugiaAttackChoosed = lugiaAttacksArray[0]
-            else if ((mathRandomValueForLugiaAttack>0.7)&&(mathRandomValueForLugiaAttack<=0.8)) lugiaAttackChoosed = lugiaAttacksArray[1]     
-            else if ((mathRandomValueForLugiaAttack>0.8)&&(mathRandomValueForLugiaAttack<=0.9)) lugiaAttackChoosed = lugiaAttacksArray[2]  
-            else if ((mathRandomValueForLugiaAttack>0.9)&&(mathRandomValueForLugiaAttack<=1)) lugiaAttackChoosed = lugiaAttacksArray[3]  
+            userPokemonHpAfter[0] = userPokemonHpAfter[0] - lugiaAttackPowerChoosed
+            $userPokemonHpBar[0].style.transform=`scaleX(${userPokemonHpAfter[0]/userPokemonHpBase[0]})` 
+            $userPokemonHpValues[0].textContent = userPokemonHpAfter[0]
+            $userPokemonPvToUpdate[0].textContent = userPokemonHpAfter[0]
+            $userPokemonPvToUpdate[1].textContent = userPokemonHpAfter[0]
+
+            if (userPokemonHpAfter[0]<=0)
+            {
+                $userPokemonHpBar[0].style.transform=`scaleX(0)` 
+                $userPokemonHpValues[0].textContent = 0
+                $userPokemonPvToUpdate[0].textContent = 0
+                $userPokemonPvToUpdate[1].textContent = 0
+            }
+
         }
         else if (pokemonChoosed.artikodin)
         {
-            if (mathRandomValueForLugiaAttack<=0.7) lugiaAttackChoosed = lugiaAttacksArray[0]
-            else if ((mathRandomValueForLugiaAttack>0.7)&&(mathRandomValueForLugiaAttack<=0.8)) lugiaAttackChoosed = lugiaAttacksArray[1]     
-            else if ((mathRandomValueForLugiaAttack>0.8)&&(mathRandomValueForLugiaAttack<=0.9)) lugiaAttackChoosed = lugiaAttacksArray[2]  
-            else if ((mathRandomValueForLugiaAttack>0.9)&&(mathRandomValueForLugiaAttack<=1)) lugiaAttackChoosed = lugiaAttacksArray[3]  
+            userPokemonHpAfter[1] = userPokemonHpAfter[1] - lugiaAttackPowerChoosed
+            $userPokemonHpBar[1].style.transform=`scaleX(${userPokemonHpAfter[1]/userPokemonHpBase[1]})` 
+            $userPokemonHpValues[1].textContent = userPokemonHpAfter[1]
+            $userPokemonPvToUpdate[2].textContent = userPokemonHpAfter[1]
         }
         if (pokemonChoosed.elekthor)
         {
-            if (mathRandomValueForLugiaAttack<=0.7) lugiaAttackChoosed = lugiaAttacksArray[0]
-            else if ((mathRandomValueForLugiaAttack>0.7)&&(mathRandomValueForLugiaAttack<=0.8)) lugiaAttackChoosed = lugiaAttacksArray[1]     
-            else if ((mathRandomValueForLugiaAttack>0.8)&&(mathRandomValueForLugiaAttack<=0.9)) lugiaAttackChoosed = lugiaAttacksArray[2]  
-            else if ((mathRandomValueForLugiaAttack>0.9)&&(mathRandomValueForLugiaAttack<=1)) lugiaAttackChoosed = lugiaAttacksArray[3]  
+            userPokemonHpAfter[2] = userPokemonHpAfter[2] - lugiaAttackPowerChoosed
+            $userPokemonHpBar[2].style.transform=`scaleX(${userPokemonHpAfter[2]/userPokemonHpBase[2]})` 
+            $userPokemonHpValues[2].textContent = userPokemonHpAfter[2]
+            $userPokemonPvToUpdate[3].textContent = userPokemonHpAfter[2]
         }
 
-        const updateDescriptionAndUserTurn = () =>
+        const updateDescriptionAndSpriteMoving = () =>
         {
             $descriptionContainer.textContent=`lugia lance l'attaque ${lugiaAttackChoosed}`
+            $lugiaSprite.classList.add('spriteAnim')  
+            setTimeout(() => {$lugiaSprite.classList.remove('spriteAnim')}, 1000)
         }
         userTurn = true
-        updateDescriptionAndUserTurn()
+        updateDescriptionAndSpriteMoving()
     }
 }

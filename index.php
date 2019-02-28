@@ -179,6 +179,14 @@
 
     $userPokemon = (object)[]; 
     $userPokemon->pokemons = [json_decode($sulfuraUrlExec), json_decode($artikodinUrlExec), json_decode($elekthorUrlExec)];
+    //up HP
+    foreach($userPokemon->pokemons as $pokemon)
+    {
+        $pokemon->stats[5]->base_stat = $pokemon->stats[5]->base_stat * 6;
+    }
+    $sulfuraJson->stats[5]->base_stat = $sulfuraJson->stats[5]->base_stat * 6;
+    $artikodinJson->stats[5]->base_stat = $artikodinJson->stats[5]->base_stat * 6;
+    $elekthorJson->stats[5]->base_stat = $elekthorJson->stats[5]->base_stat * 6;
     $userPokemon->spritesUrl = ['https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/146.png','https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/144.png','https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/145.png'];
 
     $lugiaJson->attacks = [json_decode($hiddenPowerUrlExec), json_decode($thunderUrlExec), json_decode($psychicUrlExec), json_decode($aeroblastUrlExec)];
@@ -210,10 +218,10 @@
     <img src="<?= $lugiaPhotoUrl?>">
     <p class="hidden-values lugia-hp"><?= $lugiaJson->stats[5]->base_stat?></p>
     <p>Attack list</p>
-    <p class="hidden-values lugia-attack"><?= $hiddenPowerJson->name?></p> <p class="hidden-values"><?= $hiddenPowerJson->power?></p> damage <?= $hiddenPowerJson->pp?>PP <?= $hiddenPowerJson->accuracy?>%accuracy</p>
-    <p class="hidden-values lugia-attack"><?= $thunderJson->name?></p> <p class="hidden-values"><?= $thunderJson->power?></p>damage <?= $thunderJson->pp?>PP <?= $thunderJson->accuracy?>%accuracy</p>
-    <p class="hidden-values lugia-attack"><?= $psychicJson->name?></p> <p class="hidden-values"><?= $psychicJson->power?></p>damage <?= $psychicJson->pp?>PP <?= $psychicJson->accuracy?>%accuracy</p>
-    <p class="hidden-values lugia-attack"><?= $aeroblastJson->name?></p> <p class="hidden-values"><?= $aeroblastJson->power?></p>damage <?= $aeroblastJson->pp?>PP <?= $aeroblastJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $hiddenPowerJson->name?></p> <p class="hidden-values lugia-attack-power"><?= $hiddenPowerJson->power?></p> damage <?= $hiddenPowerJson->pp?>PP <?= $hiddenPowerJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $thunderJson->name?></p> <p class="hidden-values lugia-attack-power"><?= $thunderJson->power?></p>damage <?= $thunderJson->pp?>PP <?= $thunderJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $psychicJson->name?></p> <p class="hidden-values lugia-attack-power"><?= $psychicJson->power?></p>damage <?= $psychicJson->pp?>PP <?= $psychicJson->accuracy?>%accuracy</p>
+    <p class="hidden-values lugia-attack"><?= $aeroblastJson->name?></p> <p class="hidden-values lugia-attack-power"><?= $aeroblastJson->power?></p>damage <?= $aeroblastJson->pp?>PP <?= $aeroblastJson->accuracy?>%accuracy</p>
 
     <img src="<?= $artikodinPhotoUrl?>">
     <p><?= $artikodinJson->stats[5]->base_stat?> <?= $artikodinJson->stats[5]->stat->name?></p>
@@ -258,7 +266,7 @@
                         <p class="pokemon-name"><?= $pokemon->name?></p>
                         <p class="pokemon-level"> LVL. 50</p>
                         <p class="pokemon-pv"> <?= $pokemon->stats[5]->stat->name?> </p>
-                        <p class="pokemon-pv-ratio"> <?= $pokemon->stats[5]->base_stat?>/<?= $pokemon->stats[5]->base_stat?></p>
+                        <p class="pokemon-pv-ratio"> <span class="pokemon-pv-value"><?= $pokemon->stats[5]->base_stat?></span>/<?= $pokemon->stats[5]->base_stat?></p>
                         <div class="pokemon-pv-seekbar"></div>
                     </div>
                 <?php } ?>
@@ -334,22 +342,22 @@
             <div class="first-pokemon pokemon">
                 <img src="<?= $sulfuraPhotoUrl?>">
                 <p class="name"><?= $sulfuraJson->name?></p>
-                <p><?= $sulfuraJson->stats[5]->stat->name?><?= $sulfuraJson->stats[5]->base_stat?>/<?= $sulfuraJson->stats[5]->base_stat?></p>
+                <p><?= $sulfuraJson->stats[5]->stat->name?><span class="pv-to-update"><?= $sulfuraJson->stats[5]->base_stat?></span>/<?= $sulfuraJson->stats[5]->base_stat?></p>
             </div>
             <div class="first-pokemon-2 pokemon">
                 <img src="<?= $sulfuraPhotoUrl?>">
                 <p class="name"><?= $sulfuraJson->name?></p>
-                <p><?= $sulfuraJson->stats[5]->stat->name?><?= $sulfuraJson->stats[5]->base_stat?>/<?= $sulfuraJson->stats[5]->base_stat?></p>
+                <p><?= $sulfuraJson->stats[5]->stat->name?><span class="pv-to-update"><?= $sulfuraJson->stats[5]->base_stat?></span>/<?= $sulfuraJson->stats[5]->base_stat?></p>
             </div>
             <div class="second-pokemon pokemon">
                 <img src="<?= $artikodinPhotoUrl?>">
                 <p class="name"><?= $artikodinJson->name?></p>
-                <p><?= $artikodinJson->stats[5]->stat->name?><?= $artikodinJson->stats[5]->base_stat?>/<?= $artikodinJson->stats[5]->base_stat?></p>
+                <p><?= $artikodinJson->stats[5]->stat->name?><span class="pv-to-update"><?= $artikodinJson->stats[5]->base_stat?></span>/<?= $artikodinJson->stats[5]->base_stat?></p>
             </div>
             <div class="third-pokemon pokemon">
                 <img src="<?= $elekthorPhotoUrl?>">
                 <p class="name"><?= $elekthorJson->name?></p>
-                <p><?= $elekthorJson->stats[5]->stat->name?><?= $elekthorJson->stats[5]->base_stat?>/<?= $elekthorJson->stats[5]->base_stat?></p>
+                <p><?= $elekthorJson->stats[5]->stat->name?><span class="pv-to-update"><?= $elekthorJson->stats[5]->base_stat?></span>/<?= $elekthorJson->stats[5]->base_stat?></p>
             </div>
         </div>
     </div>
