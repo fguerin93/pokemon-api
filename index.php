@@ -1,5 +1,5 @@
 <?php
-
+    include 'intro.php';
 
     //Define principal url
     $url = 'https://pokeapi.co/api/v2/';

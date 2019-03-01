@@ -55,12 +55,13 @@ pokemonChoosed.elekthor = false
 let userTurn = true
 let needToChangePokemon = false
 
+let gameIsFinish = false
 
 //event to display others container
 
 $attackAction.addEventListener('click', () =>
 {
-    if ((userTurn)&&(!needToChangePokemon))
+    if ((userTurn)&&(!needToChangePokemon)&&(!gameIsFinish))
     {
         $battleActions.style.display="none"
         $attackContainer.style.display="block"
@@ -69,7 +70,7 @@ $attackAction.addEventListener('click', () =>
 
 $captureAction.addEventListener('click', () =>
 {
-    if ((userTurn)&&(!needToChangePokemon))
+    if ((userTurn)&&(!needToChangePokemon)&&(!gameIsFinish))
     {
         $descriptionContainer.textContent="Bruno simon throw a pokeball"
 
@@ -103,7 +104,7 @@ $captureAction.addEventListener('click', () =>
 
 $pokemonAction.addEventListener('click', () =>
 {
-    if (userTurn)
+    if ((userTurn)&&(!gameIsFinish))
     {
         $battleActions.style.display="none"
         $changeContainer.style.display="block"
@@ -112,7 +113,7 @@ $pokemonAction.addEventListener('click', () =>
 
 $escapeAction.addEventListener('click', () =>
 {
-    if (userTurn)
+    if ((userTurn)&&(!gameIsFinish))
     {
         $descriptionContainer.textContent="Sorry Bruno Simon, you can't leave"
     }
@@ -148,6 +149,8 @@ for (let i=0; i<$attack.length; i++)
                 if (lugiaHpAfter<=0)
                 {
                     $lugiaHpBar.style.transform=`scaleX(0)`
+                    $descriptionContainer.textContent="Congratulations, you defeated lugia"
+                    endGame()
                 }
 
                 $spriteContainers.forEach($spriteContainer => {
@@ -307,7 +310,7 @@ const iaTurn = () =>
     let lugiaAttackChoosed = ""
     let lugiaAttackPowerChoosed = ""
     
-    while (userTurn == false)
+    while ((userTurn == false)&&(!gameIsFinish))
     {
         console.log('tour de lugia')
         let mathRandomValueForLugiaAttack = Math.random()
@@ -329,6 +332,7 @@ const iaTurn = () =>
 
             if (userPokemonHpAfter[0]<=0)
             {
+                $descriptionContainer.textContent=`Moltres is dead, choose another pokemon`
                 $userPokemonHpBar[0].style.transform=`scaleX(0)` 
                 $pokemonChange[0].style.opacity='0.3'
                 $pokemonChange[1].style.opacity='0.3'
@@ -353,6 +357,7 @@ const iaTurn = () =>
 
             if (userPokemonHpAfter[1]<=0)
             {
+                $descriptionContainer.textContent=`Articuno is dead, choose another pokemon`
                 $userPokemonHpBar[1].style.transform=`scaleX(0)` 
                 $pokemonChange[2].style.opacity='0.3'
                 $pokemonChange[2].style.cursor='initial'
@@ -372,6 +377,7 @@ const iaTurn = () =>
 
             if (userPokemonHpAfter[2]<=0)
             {
+                $descriptionContainer.textContent=`Elekthor is dead, choose another pokemon`
                 $userPokemonHpBar[2].style.transform=`scaleX(0)` 
                 $pokemonChange[3].style.opacity='0.3'
                 $pokemonChange[3].style.cursor='initial'
@@ -380,6 +386,12 @@ const iaTurn = () =>
                 pokemonChoosedIsDead[3] = true
                 needToChangePokemon = true
             }
+        }
+
+        if ((userPokemonHpAfter[0]<=0)&&(userPokemonHpAfter[1]<=0)&&(userPokemonHpAfter[2]<=0))
+        {
+            $descriptionContainer.textContent="Sorry, you lose. Refresh to restart"
+            endGame()
         }
 
         const updateDescriptionAndSpriteMoving = () =>
@@ -396,6 +408,15 @@ const iaTurn = () =>
 
 const lugiaCaptured = () =>
 {
-    setTimeout(() => {$pokeballSprite.style.filter='grayscale(100%)'},3000)
-    $descriptionContainer.textContent="Congratulations, lugia is captured"
+    setTimeout(() =>
+    {
+        $pokeballSprite.style.filter='grayscale(100%)'
+        $descriptionContainer.textContent="Congratulations, lugia is captured"
+    },3000)
+    gameIsFinish = true
+}
+
+const endGame = () =>
+{
+    gameIsFinish = true
 }
