@@ -29,6 +29,9 @@ const $lugiaHpValue = document.querySelector('.lugia-hp')
 const lugiaHpBase = Number($lugiaHpValue.textContent) * 10
 let lugiaHpAfter = Number($lugiaHpValue.textContent) * 10
 
+//pokeball sprite
+const $pokeballSprite = document.querySelector('.game-interface .battle-container .ia-container .sprite-pokeball')
+
 //BARRE DE HP OF USER POKEMONS
 const $userPokemonHpBar = document.querySelectorAll('.game-interface .battle-container .user-container .stats-container .pokemon-pv-seekbar')
 const $userPokemonHpValues = document.querySelectorAll('.game-interface .battle-container .user-container .stats-container .pokemon-pv-ratio .pokemon-pv-value')
@@ -50,13 +53,14 @@ pokemonChoosed.artikodin = false
 pokemonChoosed.elekthor = false
 
 let userTurn = true
+let needToChangePokemon = false
 
 
 //event to display others container
 
 $attackAction.addEventListener('click', () =>
 {
-    if (userTurn)
+    if ((userTurn)&&(!needToChangePokemon))
     {
         $battleActions.style.display="none"
         $attackContainer.style.display="block"
@@ -65,12 +69,36 @@ $attackAction.addEventListener('click', () =>
 
 $captureAction.addEventListener('click', () =>
 {
-    if (userTurn)
+    if ((userTurn)&&(!needToChangePokemon))
     {
-        $descriptionContainer.textContent="Bruno simon lance une pokéball"
-        userTurn = false
-        setTimeout(iaTurn, 2000)
+        $descriptionContainer.textContent="Bruno simon throw a pokeball"
+
+        $lugiaSprite.style.display="none"
+        $pokeballSprite.style.display="flex"
+        $pokeballSprite.classList.add('lugiaEscaped')
+
+        const stopPokeballAnimation = () =>
+        {
+            $lugiaSprite.style.display="block"
+            $pokeballSprite.style.display="none"
+        }
+
+        //capture algorythms
+        let mathRandomValueForLugiaCapture = Math.random()
+
+        if ((lugiaHpAfter<=lugiaHpBase*70/100)&&(mathRandomValueForLugiaCapture<=0.01)) lugiaCaptured()
+        else if ((lugiaHpAfter<=lugiaHpBase*50/100)&&(mathRandomValueForLugiaCapture<=0.04)) lugiaCaptured()
+        else if ((lugiaHpAfter<=lugiaHpBase*20/100)&&(mathRandomValueForLugiaCapture<=0.1)) lugiaCaptured()
+        else if ((lugiaHpAfter<=lugiaHpBase*5/100)&&(mathRandomValueForLugiaCapture<=0.2)) lugiaCaptured()
+        else if ((lugiaHpAfter>=lugiaHpBase*53/100)&&(lugiaHpAfter<=lugiaHpBase*55/100)) lugiaCaptured()
+        else
+        {
+            userTurn = false
+            setTimeout(stopPokeballAnimation, 3000)
+            setTimeout(iaTurn, 4000)
+        }
     }
+    console.log(lugiaHpAfter, lugiaHpBase)
 })
 
 $pokemonAction.addEventListener('click', () =>
@@ -86,7 +114,7 @@ $escapeAction.addEventListener('click', () =>
 {
     if (userTurn)
     {
-        $descriptionContainer.textContent="Désolé Bruno Simon, vous ne pouvez pas partir"
+        $descriptionContainer.textContent="Sorry Bruno Simon, you can't leave"
     }
 })
 
@@ -110,11 +138,17 @@ for (let i=0; i<$attack.length; i++)
             {
                 $attackContainer.style.display="none";
                 $battleActions.style.display="block";
-                $descriptionContainer.textContent=`${pokemonAttacking} lance l'attaque ${$attackChoosed[i].innerText}`; //description with attack choosed name
+                $descriptionContainer.textContent=`${pokemonAttacking} used ${$attackChoosed[i].innerText}`; //description with attack choosed name
                 $attackChoosedPP[i].textContent = `${Number($attackChoosedPP[i].innerText)-1}` //PP number decrease
     
                 lugiaHpAfter = lugiaHpAfter - Number($attackChoosedPower[i].innerText) //change lugia hp
                 $lugiaHpBar.style.transform=`scaleX(${lugiaHpAfter/lugiaHpBase})` //change lugia hp bar in interface
+
+                //lugia pv if inferior to 0
+                if (lugiaHpAfter<=0)
+                {
+                    $lugiaHpBar.style.transform=`scaleX(0)`
+                }
 
                 $spriteContainers.forEach($spriteContainer => {
                     $spriteContainer.classList.add('spriteAnim')  
@@ -132,16 +166,13 @@ for (let i=0; i<$attack.length; i++)
 //FUNCTION WHEN POKEMON IS ATTACKED
 
 const $pokemonChoosed = document.querySelectorAll('.change-container .pokemon .name')
-const pokemonChoosedIsDead = {}
-pokemonChoosedIsDead.sulfura = false
-pokemonChoosedIsDead.artikodin = false
-pokemonChoosedIsDead.elekthor = false
+let pokemonChoosedIsDead = [false, false, false, false]
 
 for (let i=0; i<$pokemonChange.length; i++)
 {
-    if(userTurn)
+    $pokemonChange[i].addEventListener('click', () =>
     {
-        $pokemonChange[i].addEventListener('click', () =>
+        if ((userTurn)&&(pokemonChoosedIsDead[i]==false))
         {
             $changeContainer.style.display="none";
             $battleActions.style.display="block";
@@ -169,7 +200,7 @@ for (let i=0; i<$pokemonChange.length; i++)
                     pokemonChoosed.artikodin=false
                     pokemonChoosed.elekthor=false
     
-                  break;
+                break;
                 case 1:
                     $attackContainer = document.querySelector('.game-interface .attack-container.attacks-sulfura')
     
@@ -214,7 +245,7 @@ for (let i=0; i<$pokemonChange.length; i++)
                     pokemonChoosed.artikodin=true
                     pokemonChoosed.elekthor=false
     
-                  break;
+                break;
                 case 3:
                     $attackContainer = document.querySelector('.game-interface .attack-container.attacks-elekthor')
     
@@ -236,16 +267,24 @@ for (let i=0; i<$pokemonChange.length; i++)
                     pokemonChoosed.sulfura=false
                     pokemonChoosed.artikodin=false
                     pokemonChoosed.elekthor=true
-      
+    
                     break;
             }
             $pokemonChange[i].style.display='none'
     
-            $descriptionContainer.textContent=`Bruno simon choisit ${$pokemonChoosed[i].innerText}`;
-            userTurn = false
-            setTimeout(iaTurn, 2000)
-        })
-    }
+            $descriptionContainer.textContent=`Bruno simon choose ${$pokemonChoosed[i].innerText}`;
+            if (!needToChangePokemon)
+            {
+                userTurn = false
+                setTimeout(iaTurn, 2000)
+            }
+            else 
+            {
+                userTurn = true
+                needToChangePokemon = false
+            }
+        }
+    })
 }
 
 // IA ATTACK SCRIPT
@@ -291,34 +330,72 @@ const iaTurn = () =>
             if (userPokemonHpAfter[0]<=0)
             {
                 $userPokemonHpBar[0].style.transform=`scaleX(0)` 
+                $pokemonChange[0].style.opacity='0.3'
+                $pokemonChange[1].style.opacity='0.3'
+                $pokemonChange[0].style.cursor='initial'
+                $pokemonChange[1].style.cursor='initial'
                 $userPokemonHpValues[0].textContent = 0
                 $userPokemonPvToUpdate[0].textContent = 0
                 $userPokemonPvToUpdate[1].textContent = 0
+                pokemonChoosedIsDead[0] = true
+                pokemonChoosedIsDead[1] = true
+                needToChangePokemon = true
             }
 
         }
+
         else if (pokemonChoosed.artikodin)
         {
             userPokemonHpAfter[1] = userPokemonHpAfter[1] - lugiaAttackPowerChoosed
             $userPokemonHpBar[1].style.transform=`scaleX(${userPokemonHpAfter[1]/userPokemonHpBase[1]})` 
             $userPokemonHpValues[1].textContent = userPokemonHpAfter[1]
             $userPokemonPvToUpdate[2].textContent = userPokemonHpAfter[1]
+
+            if (userPokemonHpAfter[1]<=0)
+            {
+                $userPokemonHpBar[1].style.transform=`scaleX(0)` 
+                $pokemonChange[2].style.opacity='0.3'
+                $pokemonChange[2].style.cursor='initial'
+                $userPokemonHpValues[1].textContent = 0
+                $userPokemonPvToUpdate[2].textContent = 0
+                pokemonChoosedIsDead[2] = true
+                needToChangePokemon = true
+            }
         }
+
         if (pokemonChoosed.elekthor)
         {
             userPokemonHpAfter[2] = userPokemonHpAfter[2] - lugiaAttackPowerChoosed
             $userPokemonHpBar[2].style.transform=`scaleX(${userPokemonHpAfter[2]/userPokemonHpBase[2]})` 
             $userPokemonHpValues[2].textContent = userPokemonHpAfter[2]
             $userPokemonPvToUpdate[3].textContent = userPokemonHpAfter[2]
+
+            if (userPokemonHpAfter[2]<=0)
+            {
+                $userPokemonHpBar[2].style.transform=`scaleX(0)` 
+                $pokemonChange[3].style.opacity='0.3'
+                $pokemonChange[3].style.cursor='initial'
+                $userPokemonHpValues[2].textContent = 0
+                $userPokemonPvToUpdate[3].textContent = 0
+                pokemonChoosedIsDead[3] = true
+                needToChangePokemon = true
+            }
         }
 
         const updateDescriptionAndSpriteMoving = () =>
         {
-            $descriptionContainer.textContent=`lugia lance l'attaque ${lugiaAttackChoosed}`
+            $descriptionContainer.textContent=`lugia used ${lugiaAttackChoosed}`
             $lugiaSprite.classList.add('spriteAnim')  
             setTimeout(() => {$lugiaSprite.classList.remove('spriteAnim')}, 1000)
         }
         userTurn = true
         updateDescriptionAndSpriteMoving()
     }
+}
+
+
+const lugiaCaptured = () =>
+{
+    setTimeout(() => {$pokeballSprite.style.filter='grayscale(100%)'},3000)
+    $descriptionContainer.textContent="Congratulations, lugia is captured"
 }

@@ -36,6 +36,8 @@
     $wingAttackUrl = $url . 'move/17';
     $emberUrl = $url . 'move/52';
    
+    //pokeball url
+    $pokeballUrl = $url .'item/4';
 
         //Pokemon request to Api
         $curl = curl_init($lugiaUrl);
@@ -153,6 +155,12 @@
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $emberUrlExec = curl_exec($curl);
         curl_close($curl);
+
+        $curl = curl_init($pokeballUrl);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $pokeballUrlExec = curl_exec($curl);
+        curl_close($curl);
         
 
     //decode moves to json
@@ -176,6 +184,9 @@
     $flamethrowerJson = json_decode($flamethrowerUrlExec);
     $wingAttackJson = json_decode($wingAttackUrlExec);
     $emberJson = json_decode($emberUrlExec);
+
+    //pokeball decode to json
+    $pokeballJson = json_decode($pokeballUrlExec);
 
     $userPokemon = (object)[]; 
     $userPokemon->pokemons = [json_decode($sulfuraUrlExec), json_decode($artikodinUrlExec), json_decode($elekthorUrlExec)];
@@ -259,6 +270,7 @@
                     <div class="pokemon-pv-seekbar"></div>
                 </div>
                 <div class="sprite-container"><img src="<?= $lugiaPhotoUrl?>"></div>
+                <div class="sprite-pokeball"><img src="<?= $pokeballJson->sprites->default ?>" alt=""></div>
             </div>
             <div class="user-container">
                 <?php foreach($userPokemon->pokemons as $pokemon) { ?>
@@ -278,7 +290,7 @@
         <!-- 4 actions possible for user container -->
         <div class="battle-actions">
             <div class="battle-actions-left">
-                <p>What's suppose to do Moltres ?</p>
+                <p>What will do Moltres ?</p>
             </div>
             <div class="battle-actions-right">
                 <div class="attack-action battle-action">ATTACK</div>

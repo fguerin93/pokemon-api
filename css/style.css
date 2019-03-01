@@ -4,12 +4,15 @@
     src: url("/fonts/pokemon-classic.ttf") format("TrueType");
 }
 
+body *
+{
+    user-select: none;
+}
+
 .hidden-values
 {
     display: none;
 }
-
-
 
 .game-interface
 {
@@ -28,6 +31,7 @@
     position: absolute;
     width: 100%;
     height: 75%;
+    cursor: initial;
 }
 
 /**
@@ -117,6 +121,37 @@
     width: 100px;
     height: 100px;
     transform: scale(2);
+}
+
+.game-interface .battle-container .sprite-pokeball
+{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: scale(2);
+    transform-origin: 50% 50%;
+    right: 20%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-interface .battle-container .sprite-pokeball.lugiaEscaped
+{
+    animation-name: lugiaEscaped;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+}
+
+@keyframes lugiaEscaped
+{
+    0% {transform: scale(2)}
+    10% {transform: scale(2) translateY(20px)}
+    30% {transform: scale(2) translateY(20px) rotateZ(-30deg)}
+    60% {transform: scale(2) translateY(20px) rotateZ(30deg)}
+    90% {transform: scale(2) translateY(20px) rotateZ(0deg)}
+    100% {transform: scale(2) translateY(20px) rotateZ(0deg)}
 }
 
 .game-interface .battle-container .ia-container .sprite-container 
@@ -219,6 +254,7 @@
     width: 50%;
     height: 100%;
     right: 0;
+    cursor: pointer;
 }
 
 .game-interface .battle-actions-right .battle-action
@@ -273,6 +309,7 @@
     bottom: 0;
     display: none;
     background: white;
+    cursor: pointer;
 }
 
 .game-interface .attack-container.attacks-artikodin
@@ -347,6 +384,7 @@
     justify-content: center;
     align-items: center;
     background: white;
+    cursor: pointer;
 }
 
 .game-interface .change-container .first-pokemon-2
@@ -360,6 +398,7 @@
     justify-content: center;
     align-items: center;
     background: white;
+    cursor: pointer;
 }
 
 .game-interface .change-container .second-pokemon
@@ -373,6 +412,7 @@
     justify-content: center;
     align-items: center;
     background: white;
+    cursor: pointer;
 }
 
 .game-interface .change-container .third-pokemon
@@ -386,4 +426,5 @@
     justify-content: center;
     align-items: center;
     background: white;
+    cursor: pointer;
 }
