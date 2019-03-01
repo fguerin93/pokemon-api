@@ -425,6 +425,6 @@ body *
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: white;
     cursor: pointer;
+    background: white;
 }
