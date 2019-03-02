@@ -13,6 +13,7 @@
     <div class="pseudo-container">
         <form action="" method="post">
             <div class="field">
+                <label for="pseudo">Entrez votre nom d'élu</label>
                 <input type="text" name="pseudo" id="pseudo">
             </div>
         </form>

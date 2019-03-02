@@ -1,7 +1,45 @@
+@font-face
+{
+    font-family: "pokemon";
+    src: url("../fonts/pokemon-classic.ttf") format("TrueType");
+}
+
 .pseudo-container
 {
     position: absolute;
     width: 100vw;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: black;
+}
+
+.pseudo-container form .field 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pseudo-container form .field label
+{
+    position: absolute;
+    font-family: pokemon;
+    color: white;
+    font-size: 25px;
+    top: 40%;
+}
+
+.pseudo-container form input
+{
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    border-radius: 6px;
+    background: white;
+    font-family: pokemon;
+    font-size: 13px;
+    text-align: center;
 }
