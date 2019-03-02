@@ -4,12 +4,47 @@
     src: url("../fonts/pokemon-classic.ttf") format("TrueType");
 }
 
-.pseudo-container
+.intro-container
 {
     position: absolute;
     width: 100vw;
     height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+}
+
+.intro-container .subtitle
+{
+    position: absolute;
+    color: white;
+    font-family: pokemon;
+    font-size: 2vw;
+    text-align: center;
+    will-change: opacity;
+}
+
+.intro-container .subtitle.subtitleAppear
+{
+    animation-name: subtitleAppear;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes subtitleAppear
+{
+    0% {opacity:1}
+    50% {opacity:0}
+    100% {opacity:1}
+}
+
+.pseudo-container
+{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: none;
     justify-content: center;
     align-items: center;
     background: black;

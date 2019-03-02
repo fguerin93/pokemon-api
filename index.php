@@ -10,6 +10,10 @@
     <link rel="icon" href="images/favicon.ico" type="image/ico">
 </head>
 <body>
+    <div class="intro-container">
+        <p class="subtitle">Ne perturbez pas l'harmonie qui règne entre </br> le feu, la glace et la foudre</p>
+        <audio autoplay="autoplay" src="audio/lugiamytho.mp3"></audio>
+    </div>
     <div class="pseudo-container">
         <form action="" method="post">
             <div class="field">
@@ -18,6 +22,7 @@
             </div>
         </form>
     </div>
+    <script src="js/script.js"></script>
 </body>
 </html>
 
