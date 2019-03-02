@@ -10,9 +10,16 @@
     <link rel="icon" href="images/favicon.ico" type="image/ico">
 </head>
 <body>
+    <div class="launching-container">
+        <img src="images/pokeball-launching.png">
+        <div class="circle"></div>
+        <p class="cta">Cliquez sur la ball pour découvrir l'histoire de lugia</p>
+    </div>
     <div class="intro-container">
         <p class="subtitle">Ne perturbez pas l'harmonie qui règne entre </br> le feu, la glace et la foudre</p>
         <audio autoplay="autoplay" src="audio/lugiamytho.mp3"></audio>
+        <button class="skip-button">Passer l'introduction</button>
+        <div class="load-bar"></div>
     </div>
     <div class="pseudo-container">
         <form action="" method="post">
