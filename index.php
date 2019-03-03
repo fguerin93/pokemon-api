@@ -25,7 +25,7 @@
         <form action="game.php" method="post">
             <div class="field">
                 <label for="pseudo">Entrez votre nom d'élu</label>
-                <input type="text" name="pseudo" id="pseudo">
+                <input type="text" name="pseudo" id="pseudo" require>
             </div>
         </form>
     </div>

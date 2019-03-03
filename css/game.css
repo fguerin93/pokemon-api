@@ -428,3 +428,51 @@ body *
     background: white;
     cursor: pointer;
 }
+
+/**
+*   WINNERS TABLE
+*/
+
+.winners-container
+{
+    position: absolute;
+    width: 90vw;
+    height: 90vh;
+    top: 5vh;
+    left: 5vh;
+    display: none;
+    justify-content: center;
+    align-items:center;
+    font-weight: bold;
+}
+
+.winners-container table
+{
+    font-family: pokemon;
+    font-size: 2vw;
+    text-align: center;
+    vertical-align: center;
+}
+
+.winners-container th
+{
+    width: 20vw;
+    height: 6vw;
+    border: 1px solid black;
+    background: rgb(214, 214, 214);
+    text-align: center;
+    vertical-align: center;
+}
+
+.winners-container td
+{
+    width: 20vw;
+    height: 6vw;
+    border: 1px solid black;
+    background: white;
+}
+
+.winners-container .user-score
+{
+    background: rgb(126, 209, 126);
+}

@@ -42,9 +42,14 @@ const $userPokemonPvToUpdate = document.querySelectorAll('.game-interface .chang
 //two pokemon to click on
 const $pokemonChange = document.querySelectorAll('.game-interface .change-container .pokemon')
 
-
 //description container
 const $descriptionContainer = document.querySelector('.game-interface .battle-actions-left p')
+
+//winner container
+const $winnersContainer = document.querySelector('.winners-container')
+
+//SCORE AFTER GAME IS FINISH
+let score = 0
 
 
 const pokemonChoosed = {}
@@ -413,10 +418,12 @@ const lugiaCaptured = () =>
     {
         $pokeballSprite.style.filter='grayscale(100%)'
         $descriptionContainer.textContent="Congratulations, lugia is captured"
+        $winnersContainer.style.display='flex'
     },3000)
     gameIsFinish = true
+    score = lugiaHpAfter / pokeballNumber
 
-    fetch(`updateDb.php?pokeball=${pokeballNumber}&lugiaHp=${lugiaHpAfter}`)
+    fetch(`updateDb.php?pokeball=${pokeballNumber}&lugiaHp=${lugiaHpAfter}&score=${score}`)
     .then((_response) =>
     {
         return _response
@@ -430,6 +437,13 @@ const lugiaCaptured = () =>
 const endGame = () =>
 {
     gameIsFinish = true
+    $winnersContainer.style.display='flex'
+
+    setTimeout(() =>
+    {
+        $winnersContainer.style.display='flex'
+    },3000)
+
     fetch(`updateDb.php?pokeball=${pokeballNumber}`)
     .then((_response) =>
     {

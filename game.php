@@ -1,8 +1,12 @@
 <?php
     include 'database.php';
 
-    $pseudo = $_POST['pseudo'];
+    /**
+     * DATABASE PHP
+     */
 
+    $pseudo = $_POST['pseudo'];
+    
     // Check success
     $prepare = $pdo->prepare('
         INSERT INTO
@@ -14,7 +18,17 @@
     $prepare->bindValue('pseudo', $pseudo);
     $execute = $prepare->execute();
 
-    $pseudo = $_POST['pseudo'];
+    $query = $pdo->query('SELECT pseudo, pokeball, lugiaHp, score FROM users ORDER BY score DESC LIMIT 5');
+    $winners = $query->fetchAll();
+
+    $query2 = $pdo->query('SELECT pseudo, pokeball, lugiaHp, score FROM users WHERE id=(SELECT max(id) FROM users)');
+    $userScore = $query2->fetchAll();
+
+
+    /**
+     * API PHP 
+     */
+
 
     //Define principal url
     $url = 'https://pokeapi.co/api/v2/';
@@ -220,11 +234,6 @@
     $elekthorJson->attacks = [json_decode($thunderShockUrlExec), json_decode($thunderUrlExec), json_decode($hiddenPowerUrlExec), json_decode($drillPeckUrlExec)];
     $sulfuraJson->attacks = [json_decode($flamethrowerUrlExec), json_decode($hiddenPowerUrlExec), json_decode($wingAttackUrlExec), json_decode($emberUrlExec)];
 
-    //create static map url
-    // echo '<pre>';
-    // print_r($userPokemon);
-    // echo '</pre>';
-
 ?>
 
 
@@ -249,15 +258,7 @@
 
     <p class="hidden-values user-pseudo"><?= $pseudo ?></p>
  
-
-    <!-- <img src="<?= $sulfuraPhotoUrl?>">
-    <p><?= $sulfuraJson->stats[5]->base_stat?> <?= $sulfuraJson->stats[5]->stat->name?></p>
-    <p>Attack list</p>
-    <p><?= $flamethrowerJson->name?> <?= $flamethrowerJson->power?>damage <?= $flamethrowerJson->pp?>PP <?= $flamethrowerJson->accuracy?>%accuracy</p>
-    <p><?= $hiddenPowerJson->name?> <?= $hiddenPowerJson->power?>damage <?= $hiddenPowerJson->pp?>PP <?= $hiddenPowerJson->accuracy?>%accuracy</p>
-    <p><?= $wingAttackJson->name?> <?= $wingAttackJson->power?>damage <?= $wingAttackJson->pp?>PP <?= $wingAttackJson->accuracy?>%accuracy</p>
-    <p><?= $emberJson->name?> <?= $emberJson->power?>damage <?= $emberJson->pp?>PP <?= $emberJson->accuracy?>%accuracy</p> -->
-    <!-- result -->
+    <!-- Game -->
 
     <div class="game-interface">
         <!-- game container with sprites and stat -->
@@ -330,25 +331,6 @@
         <?php } ?>
         </div>
 
-<!-- 
-       
-            <div class="attack-one attack">
-                <p class="name"><?= $flamethrowerJson->name?></p>
-                <p><span class="pp"><?= $flamethrowerJson->pp?></span>PP type/<?= $flamethrowerJson->type->name?></p>
-            </div>
-            <div class="attack-two attack">
-                <p class="name"><?= $hiddenPowerJson->name?></p>
-                <p><span class="pp"><?= $hiddenPowerJson->pp?></span>PP type/<?= $hiddenPowerJson->type->name?></p>
-            </div>
-            <div class="attack-third attack">
-                <p class="name"><?= $wingAttackJson->name?></p>
-                <p><span class="pp"><?= $wingAttackJson->pp?></span>PP type/<?= $wingAttackJson->type->name?></p>
-            </div>
-            <div class="attack-fourth attack">
-                <p class="name"><?= $emberJson->name?></p>
-                <p><span class="pp"><?= $emberJson->pp?></span>PP type/<?= $emberJson->type->name?></p>
-            </div>             -->
-        
         <!-- change and choose pokemon container -->
         <div class="change-container">
             <div class="first-pokemon pokemon">
@@ -372,6 +354,30 @@
                 <p><?= $elekthorJson->stats[5]->stat->name?><span class="pv-to-update"><?= $elekthorJson->stats[5]->base_stat?></span>/<?= $elekthorJson->stats[5]->base_stat?></p>
             </div>
         </div>
+    </div>
+    <div class="winners-container">
+        <table class="winner-table">
+            <tr>
+                <th>Pseudo</th>
+                <th>Pokeball</th>
+                <th>Lugia's HP</th>
+                <th>Score</th>
+            </tr>
+            <?php foreach($winners as $winner) { ?>
+            <tr>
+                <td><?= $winner->pseudo?></td>
+                <td><?= $winner->pokeball?></td>
+                <td><?= $winner->lugiaHp?></td>
+                <td><?= $winner->score?></td>
+            </tr>
+            <?php } ?>
+            <tr>
+                <td class="user-score"><?= $userScore[0]->pseudo?></td>
+                <td class="user-score"><?= $userScore[0]->pokeball?></td>
+                <td class="user-score"><?= $userScore[0]->lugiaHp?></td>
+                <td class="user-score"><?= $userScore[0]->score?></td>
+            </tr>
+        </table>
     </div>
 
     <script src="js/game.js?b=<?= rand(0,100) ?>"></script>
