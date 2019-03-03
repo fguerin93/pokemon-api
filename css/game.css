@@ -441,9 +441,23 @@ body *
     top: 5vh;
     left: 5vh;
     display: none;
+    flex-direction: column;
     justify-content: center;
     align-items:center;
     font-weight: bold;
+}
+
+.winners-container .title
+{
+    width: 80vw;
+    height: 20vw;
+    background: white;
+    border: 1px solid black;
+    font-family: pokemon;
+    font-size: 2vw;
+    display: flex;
+    align-items:center;
+    justify-content: center;
 }
 
 .winners-container table

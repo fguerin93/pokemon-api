@@ -6,7 +6,7 @@
      */
 
     $pseudo = $_POST['pseudo'];
-    
+
     // Check success
     $prepare = $pdo->prepare('
         INSERT INTO
@@ -23,6 +23,7 @@
 
     $query2 = $pdo->query('SELECT pseudo, pokeball, lugiaHp, score FROM users WHERE id=(SELECT max(id) FROM users)');
     $userScore = $query2->fetchAll();
+
 
 
     /**
@@ -245,7 +246,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href ="css/game.css?b=<?= rand(0,100) ?>">
     <link rel="stylesheet" href ="css/reset.css?b=<?= rand(0,100) ?>">
-    <title>API</title> 
+    <title>LUGIA's fight</title> 
+    <link rel="icon" href="images/favicon.ico" type="image/ico">
 </head>
 <body>
     
@@ -356,6 +358,7 @@
         </div>
     </div>
     <div class="winners-container">
+        <h1 class="title">Past Winners</h1>
         <table class="winner-table">
             <tr>
                 <th>Pseudo</th>

@@ -47,6 +47,7 @@ const $descriptionContainer = document.querySelector('.game-interface .battle-ac
 
 //winner container
 const $winnersContainer = document.querySelector('.winners-container')
+const $userScores = document.querySelectorAll('.winners-container .user-score')
 
 //SCORE AFTER GAME IS FINISH
 let score = 0
@@ -318,7 +319,6 @@ const iaTurn = () =>
     
     while ((userTurn == false)&&(!gameIsFinish))
     {
-        console.log('tour de lugia')
         let mathRandomValueForLugiaAttack = Math.random()
 
         //lugia choose his attack script
@@ -423,6 +423,7 @@ const lugiaCaptured = () =>
     gameIsFinish = true
     score = lugiaHpAfter / pokeballNumber
 
+    // fetch to update database with get
     fetch(`updateDb.php?pokeball=${pokeballNumber}&lugiaHp=${lugiaHpAfter}&score=${score}`)
     .then((_response) =>
     {
@@ -430,8 +431,15 @@ const lugiaCaptured = () =>
     })
     .then((_result) => 
     {
-        console.log('cest ok')
+    
     })
+
+
+    // update html user score
+    $userScores[0].textContent = `${$userPseudo.textContent}`
+    $userScores[1].textContent = `${pokeballNumber}`
+    $userScores[2].textContent = `${lugiaHpAfter}`
+    $userScores[3].textContent = `${score}`
 }
 
 const endGame = () =>
@@ -451,6 +459,12 @@ const endGame = () =>
     })
     .then((_result) => 
     {
-        console.log('cest ok')
+        
     })
+
+    // update html user score
+    $userScores[0].textContent = `${$userPseudo.textContent}`
+    $userScores[1].textContent = `${pokeballNumber}`
+    $userScores[2].textContent = `${lugiaHpAfter}`
+    $userScores[3].textContent = `${score}`
 }
