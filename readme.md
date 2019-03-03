@@ -13,6 +13,7 @@ Le but du jeu est seulement de CAPTURER Lugia (car c'est ce que l'élu doit fair
 ## Je suis :
 - Félix Guérin
 - H2 P2022 G1
+- github: fguerin93
 
 ## Configuration :
 
