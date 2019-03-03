@@ -29,6 +29,15 @@ $pokeballLaunching.addEventListener('click', () =>
     $loadBar.classList.add('startScaling')
 })
 
+$circleOnPokeball.addEventListener('click', () =>
+{
+    $launchingContainer.style.display='none'
+    $introContainer.style.display='flex'
+    $audio.play()
+    subtitleFunction()
+    $loadBar.classList.add('startScaling')
+})
+
 const subtitleFunction = () =>
 {
     setTimeout(() => {
