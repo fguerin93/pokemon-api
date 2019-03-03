@@ -35,10 +35,6 @@
     transition: opacity 0.2s ease;
 }
 
-.launching-container .circle:hover
-{
-    opacity: 0.3;
-}
 
 .launching-container .cta
 {

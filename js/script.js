@@ -15,6 +15,12 @@ $pokeballLaunching.addEventListener('mouseover', () =>
     $circleOnPokeball.style.opacity='0.7';
 })
 
+$circleOnPokeball.addEventListener('mouseover', () =>
+{
+    $circleOnPokeball.style.opacity='0.7';
+})
+
+
 $pokeballLaunching.addEventListener('mouseleave', () =>
 {
     $circleOnPokeball.style.opacity='0';
