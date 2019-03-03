@@ -1,4 +1,20 @@
 <?php
+    include 'database.php';
+
+    $pseudo = $_POST['pseudo'];
+
+    // Check success
+    $prepare = $pdo->prepare('
+        INSERT INTO
+            users (pseudo)
+        VALUES
+            (:pseudo)
+    ');
+
+    $prepare->bindValue('pseudo', $pseudo);
+    $execute = $prepare->execute();
+
+    $pseudo = $_POST['pseudo'];
 
     //Define principal url
     $url = 'https://pokeapi.co/api/v2/';
@@ -231,6 +247,7 @@
     <p class="hidden-values lugia-attack"><?= $psychicJson->name?></p> <p class="hidden-values lugia-attack-power"><?= $psychicJson->power?></p>
     <p class="hidden-values lugia-attack"><?= $aeroblastJson->name?></p> <p class="hidden-values lugia-attack-power"><?= $aeroblastJson->power?></p>
 
+    <p class="hidden-values user-pseudo"><?= $pseudo ?></p>
  
 
     <!-- <img src="<?= $sulfuraPhotoUrl?>">

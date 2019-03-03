@@ -1,6 +1,6 @@
-console.log('ok')
 
 //DOM ELEMENTS
+const $userPseudo = document.querySelector('.user-pseudo')
 
 //three container to display on click on attack
 const $battleActions = document.querySelector('.game-interface .battle-actions')
@@ -68,11 +68,13 @@ $attackAction.addEventListener('click', () =>
     }
 })
 
+let pokeballNumber = 0
 $captureAction.addEventListener('click', () =>
 {
     if ((userTurn)&&(!needToChangePokemon)&&(!gameIsFinish))
     {
-        $descriptionContainer.textContent="Bruno simon throw a pokeball"
+        pokeballNumber=pokeballNumber + 1
+        $descriptionContainer.textContent=`${$userPseudo.textContent} throw a pokeball`
 
         $lugiaSprite.style.display="none"
         $pokeballSprite.style.display="flex"
@@ -99,7 +101,6 @@ $captureAction.addEventListener('click', () =>
             setTimeout(iaTurn, 4000)
         }
     }
-    console.log(lugiaHpAfter, lugiaHpBase)
 })
 
 $pokemonAction.addEventListener('click', () =>
@@ -115,7 +116,7 @@ $escapeAction.addEventListener('click', () =>
 {
     if ((userTurn)&&(!gameIsFinish))
     {
-        $descriptionContainer.textContent="Sorry Bruno Simon, you can't leave"
+        $descriptionContainer.textContent=`Sorry ${$userPseudo.textContent}, you can't leave`
     }
 })
 
@@ -275,7 +276,7 @@ for (let i=0; i<$pokemonChange.length; i++)
             }
             $pokemonChange[i].style.display='none'
     
-            $descriptionContainer.textContent=`Bruno simon choose ${$pokemonChoosed[i].innerText}`;
+            $descriptionContainer.textContent=`${$userPseudo.textContent} choose ${$pokemonChoosed[i].innerText}`;
             if (!needToChangePokemon)
             {
                 userTurn = false
@@ -414,9 +415,28 @@ const lugiaCaptured = () =>
         $descriptionContainer.textContent="Congratulations, lugia is captured"
     },3000)
     gameIsFinish = true
+
+    fetch(`updateDb.php?pokeball=${pokeballNumber}&lugiaHp=${lugiaHpAfter}`)
+    .then((_response) =>
+    {
+        return _response
+    })
+    .then((_result) => 
+    {
+        console.log('cest ok')
+    })
 }
 
 const endGame = () =>
 {
     gameIsFinish = true
+    fetch(`updateDb.php?pokeball=${pokeballNumber}`)
+    .then((_response) =>
+    {
+        return _response
+    })
+    .then((_result) => 
+    {
+        console.log('cest ok')
+    })
 }

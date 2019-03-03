@@ -16,40 +16,19 @@
         <p class="cta">Cliquez sur la ball pour découvrir l'histoire de lugia</p>
     </div>
     <div class="intro-container">
-        <p class="subtitle">Ne perturbez pas l'harmonie qui règne entre </br> le feu, la glace et la foudre</p>
+        <p class="subtitle">[..Harmonica song..]</p>
         <audio autoplay="autoplay" src="audio/lugiamytho.mp3"></audio>
         <button class="skip-button">Passer l'introduction</button>
         <div class="load-bar"></div>
     </div>
     <div class="pseudo-container">
-        <form action="" method="post">
+        <form action="game.php" method="post">
             <div class="field">
                 <label for="pseudo">Entrez votre nom d'élu</label>
                 <input type="text" name="pseudo" id="pseudo">
             </div>
         </form>
     </div>
-    <script src="js/script.js"></script>
+    <script src="js/script.js?b=<?= rand(0,100) ?>"></script>
 </body>
 </html>
-
-<?php
-    include 'database.php';
-
-    // Get data
-    $pseudo = $_POST['pseudo'];
-
-    // Check success
-    $prepare = $pdo->prepare('
-        INSERT INTO
-            users (pseudo)
-        VALUES
-            (:pseudo)
-    ');
-
-    $prepare->bindValue('pseudo', $pseudo);
-
-    $execute = $prepare->execute();
-
- 
-?>

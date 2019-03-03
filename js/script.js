@@ -33,7 +33,18 @@ const subtitleFunction = () =>
 {
     setTimeout(() => {
         $subtitle.classList.add('subtitleAppear')
-        console.log('start')
+    }, 15000);
+    
+    setTimeout(() => {
+        $subtitle.innerHTML=`Ne perturbez pas l'harmonie qui règne entre </br> le feu, la glace et la foudre`
+    }, 15500);
+    
+    setTimeout(() => {
+        $subtitle.classList.remove('subtitleAppear')
+    }, 16000);
+
+    setTimeout(() => {
+        $subtitle.classList.add('subtitleAppear')
     }, 20000);
     
     setTimeout(() => {
@@ -42,7 +53,6 @@ const subtitleFunction = () =>
     
     setTimeout(() => {
         $subtitle.classList.remove('subtitleAppear')
-        console.log('stop')
     }, 21000);
     
     setTimeout(() => {
